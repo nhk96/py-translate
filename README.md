@@ -57,7 +57,7 @@ The following string formats are supported for translation:
         key3: `value`,
         "key4": "value",
         'key5': "value",
-        `key6`: "value`,
+        `key6`: "value",
         key7: `this is "value" string`
     }
 }
@@ -85,7 +85,7 @@ Given the input:
         test3: `test`,
         "test4": "test",
         'test5': "test",
-        `test6`: "test`,
+        `test6`: "test",
         test7: `this is "test" string`
     }
 }

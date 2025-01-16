@@ -36,7 +36,7 @@ python translate.py
 python translate.py
 ```
 
-This command will translate the `input.js` file to Portuguese and save the result as `output.js`.
+This command will translate the `input.txt` file to Simplified Chinese and save the result as `output.txt`.
 
 ## Supported String Formats
 

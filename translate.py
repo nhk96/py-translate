@@ -17,22 +17,26 @@ def translate_text(text: str, target_lang: str) -> str:
 def preserve_placeholders(text: str, target_lang: str) -> str:
     """
     Protects substrings enclosed in {} from being translated.
-    It replaces placeholders with temporary markers, translates the text,
-    then restores the original placeholders.
+    This function splits the text into translatable parts and non-translatable placeholders,
+    translates only the translatable parts, and then reassembles everything.
     """
+    # Regular expression to match placeholders like {someone}
     pattern = r'(\{[^}]+\})'
-    placeholders = re.findall(pattern, text)
-    marker_map = {}
-    for i, placeholder in enumerate(placeholders):
-        marker = f"__PLACEHOLDER_{i}__"
-        marker_map[marker] = placeholder
-        text = text.replace(placeholder, marker)
-    # Translate the text with placeholders replaced by markers
-    translated = translate_text(text, target_lang)
-    # Restore the placeholders in the translated text
-    for marker, placeholder in marker_map.items():
-        translated = translated.replace(marker, placeholder)
-    return translated
+    
+    # Split the text by placeholders
+    parts = re.split(pattern, text)
+    
+    # If no placeholders, just translate the whole text
+    if len(parts) == 1:
+        return translate_text(text, target_lang)
+    
+    # Translate only the non-placeholder parts
+    for i in range(0, len(parts), 2):  # Even indexes are non-placeholder text
+        if parts[i].strip():  # Only translate non-empty strings
+            parts[i] = translate_text(parts[i], target_lang)
+    
+    # Reassemble the text with untranslated placeholders
+    return ''.join(parts)
 
 def process_dict(d: dict, target_lang: str, pbar: tqdm) -> dict:
     """
